@@ -1,0 +1,45 @@
+.GuessItem {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 20px 20px;
+}
+.AnswerBox {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 20px 20px;
+}
+.CorrectNumber {
+	background-color: gray;
+	border: 1px solid black;
+
+	height: 20px;
+	width: 20px;
+	margin-right: 5px;
+}
+.CorrectLocation {
+	background-color: black;
+	border: 1px solid black;
+
+	height: 20px;
+	width: 20px;
+	margin-right: 5px;
+}
+
+.IncorrectNumber {
+	background-color: white;
+	height: 20px;
+	width: 20px;
+	margin-right: 5px;
+	border: 1px solid black;
+}
+
+.Guess {
+	background-color: green;
+	border-width: 1;
+	color: purple;
+	height: 20px;
+	width: 50px;
+	border: red;
+}
