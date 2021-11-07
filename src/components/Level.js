@@ -1,11 +1,14 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { gameActions } from "../store/game-slice";
 
-const Difficulty = () => {
+const Level = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const startGameHandler = (level) => {
 		dispatch(gameActions.startGame({ level: level }));
+		navigate("/game");
 	};
 	return (
 		<div>
@@ -16,4 +19,4 @@ const Difficulty = () => {
 	);
 };
 
-export default Difficulty;
+export default Level;

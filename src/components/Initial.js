@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 // import classes from "./GuessItem.module.css";
 
-const Initail = (props) => {
+const Initial = (props) => {
+	const navigate = useNavigate();
 	const startGameHandler = () => {
-		console.log("go to difficulty window");
+		navigate("/level", { replace: true });
 	};
 	return (
 		<div>

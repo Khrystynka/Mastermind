@@ -18,7 +18,7 @@ const InputList = (props) => {
 	const submitHandler = (guess) => {
 		console.log("clicked", guess);
 		dispatch(gameActions.addGuess({ guess: guess }));
-		setGuessArr(initialGuessArr);
+		// setGuessArr(initialGuessArr);
 		// updateGuess("");
 		// console.log(allGuesses);
 	};

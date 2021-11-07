@@ -18,6 +18,11 @@ const gameSlice = createSlice({
 		generate(state) {
 			state.answer = [1, 2, 3, 4];
 		},
+		change_game_status(state, action) {
+			console.log("payload", action.payload.status);
+
+			state.game_status = action.payload.status;
+		},
 		startGame(state, action) {
 			const level = action.payload.level;
 			console.log("payload", level);
@@ -34,6 +39,8 @@ const gameSlice = createSlice({
 				state.choices = 10;
 			}
 			state.answer = [1, 2, 3, 4];
+			state.allGuesses = [];
+			state.attempts = 0;
 		},
 		addGuess(state, action) {
 			console.log("payload", action.payload.guess);
