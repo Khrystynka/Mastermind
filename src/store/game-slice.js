@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const gameInititalState = {
-	allGuesses: [{ guess: [0, 1, 2, 3], inPos: 0, corr: 2 }],
+	allGuesses: [],
 	max_attempts: 8,
 	attempts: 0,
 	difficulty: 1,
 	places: 4,
 	choices: 8,
-	answer: [1, 2, 3, 4],
-	game_status: "active",
+	answer: [],
+	game_status: "inactive",
 };
 
 const gameSlice = createSlice({
@@ -16,6 +16,23 @@ const gameSlice = createSlice({
 	initialState: gameInititalState,
 	reducers: {
 		generate(state) {
+			state.answer = [1, 2, 3, 4];
+		},
+		startGame(state, action) {
+			const level = action.payload.level;
+			console.log("payload", level);
+			state.game_status = "active";
+			state.difficulty = level;
+			if (level === "medium") {
+				state.places = 4;
+				state.choices = 8;
+			} else if (level === "easy") {
+				state.places = 4;
+				state.choices = 4;
+			} else {
+				state.places = 4;
+				state.choices = 10;
+			}
 			state.answer = [1, 2, 3, 4];
 		},
 		addGuess(state, action) {

@@ -4,7 +4,8 @@ import InputBtn from "./InputBtn";
 import { gameActions } from "../store/game-slice";
 
 const InputList = (props) => {
-	const [guessArr, setGuessArr] = useState([0, 0, 0, 0]);
+	const initialGuessArr = [0, 0, 0, 0];
+	const [guessArr, setGuessArr] = useState(initialGuessArr);
 	const dispatch = useDispatch();
 	const changeHandler = (btnNum) => {
 		console.log("Old Guess Array", guessArr);
@@ -17,6 +18,7 @@ const InputList = (props) => {
 	const submitHandler = (guess) => {
 		console.log("clicked", guess);
 		dispatch(gameActions.addGuess({ guess: guess }));
+		setGuessArr(initialGuessArr);
 		// updateGuess("");
 		// console.log(allGuesses);
 	};
