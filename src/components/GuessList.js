@@ -2,12 +2,15 @@ import React from "react";
 import { useState } from "react";
 import GuessItem from "./GuessItem";
 import { useSelector, useDispatch } from "react-redux";
-import { gameActions } from "../store/index";
+import { gameActions } from "../store/game-slice";
 const GuessList = (props) => {
 	const dispatch = useDispatch();
 	const allGuesses = useSelector((state) => state.game.allGuesses);
-	console.log(allGuesses);
 	const places = useSelector((state) => state.game.places);
+	// const answer = useSelector((state) => state.game.answer);
+
+	console.log(allGuesses);
+	// const places = useSelector((state) => state.game.places);
 	const [guess, updateGuess] = useState("");
 	const clickHandler = () => {
 		console.log("clicked", guess);
@@ -19,11 +22,16 @@ const GuessList = (props) => {
 	return (
 		<div>
 			<div>
-				<GuessItem Guess={places} />
-				<GuessItem Guess={allGuesses[allGuesses.length - 1]} />
-				<GuessItem Guess={1000} />
-				<GuessItem Guess={3000} /> <GuessItem Guess={6000} />
-				<GuessItem Guess={1000} />
+				{allGuesses.map((obj) => {
+					return (
+						<GuessItem
+							guess={obj.guess}
+							inPos={obj.inPos}
+							corr={obj.corr}
+							incorr={places - obj.corr - obj.inPos}
+						/>
+					);
+				})}
 			</div>
 
 			<input value={guess} onChange={(e) => updateGuess(e.target.value)} />
