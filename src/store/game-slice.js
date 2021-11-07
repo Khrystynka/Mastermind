@@ -19,7 +19,8 @@ const gameSlice = createSlice({
 			state.answer = [1, 2, 3, 4];
 		},
 		addGuess(state, action) {
-			let guess = Array.from(action.payload.guess).map((x) => parseInt(x));
+			console.log("payload", action.payload.guess);
+			let guess = action.payload.guess.map((x) => parseInt(x));
 			let correctPlaces = 0;
 			let correctNumbers = 0;
 			let remain_ans = [];
@@ -51,11 +52,17 @@ const gameSlice = createSlice({
 					correctNumbers += 1;
 				}
 			}
+			state.attempts += 1;
 
 			state.allGuesses = [
 				...state.allGuesses,
 				{ guess: guess, inPos: correctPlaces, corr: correctNumbers },
 			];
+			if (correctPlaces === state.places) {
+				state.game_status = "won";
+			} else if (state.attempts === state.max_attempts) {
+				state.game_status = "lost";
+			}
 		},
 	},
 });

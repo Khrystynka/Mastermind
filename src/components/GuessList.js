@@ -1,23 +1,18 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import GuessItem from "./GuessItem";
 import { useSelector, useDispatch } from "react-redux";
-import { gameActions } from "../store/game-slice";
+// import { gameActions } from "../store/game-slice";
+import InputList from "./InputList";
 const GuessList = (props) => {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const allGuesses = useSelector((state) => state.game.allGuesses);
 	const places = useSelector((state) => state.game.places);
+	const choices = useSelector((state) => state.game.choices);
+
 	// const answer = useSelector((state) => state.game.answer);
 
 	console.log(allGuesses);
-	// const places = useSelector((state) => state.game.places);
-	const [guess, updateGuess] = useState("");
-	const clickHandler = () => {
-		console.log("clicked", guess);
-		dispatch(gameActions.addGuess({ guess: guess }));
-		updateGuess("");
-		console.log(allGuesses);
-	};
 
 	return (
 		<div>
@@ -34,8 +29,7 @@ const GuessList = (props) => {
 				})}
 			</div>
 
-			<input value={guess} onChange={(e) => updateGuess(e.target.value)} />
-			<button onClick={clickHandler}>Guess</button>
+			<InputList choices={choices} />
 		</div>
 	);
 };
