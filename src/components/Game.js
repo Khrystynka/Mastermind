@@ -19,6 +19,7 @@ const Game = (props) => {
 	const game_loading = useSelector((state) => state.game.game_is_loading);
 	const attempts = useSelector((state) => state.game.attempts);
 	const max_attempts = useSelector((state) => state.game.max_attempts);
+	const loading_error = useSelector((state) => state.game.error);
 
 	// const [showModal, setShowModal] = useState(true);
 	let showModal = true;
@@ -60,6 +61,9 @@ const Game = (props) => {
 	);
 	if (game_loading) {
 		game = <Spinner />;
+	}
+	if (loading_error) {
+		game = <div>An error ocurred while fetching the game...</div>;
 	}
 	return game;
 };
