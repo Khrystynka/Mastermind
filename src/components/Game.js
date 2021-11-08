@@ -17,6 +17,8 @@ const Game = (props) => {
 	const navigate = useNavigate();
 	const game_status = useSelector((state) => state.game.game_status);
 	const game_loading = useSelector((state) => state.game.game_is_loading);
+	const attempts = useSelector((state) => state.game.attempts);
+	const max_attempts = useSelector((state) => state.game.max_attempts);
 
 	// const [showModal, setShowModal] = useState(true);
 	let showModal = true;
@@ -43,6 +45,7 @@ const Game = (props) => {
 	);
 	let game = (
 		<div>
+			<div>Attempts left: {max_attempts - attempts}</div>
 			<Modal
 				show={showModal}
 				modalClosed={() => {

@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const gameInititalState = {
 	allGuesses: [],
-	max_attempts: 8,
+	max_attempts: 0,
 	attempts: 0,
-	difficulty: 1,
-	places: 4,
-	choices: 8,
+	difficulty: 0,
+	places: 0,
+	choices: 0,
 	answer: [],
 	game_status: "inactive",
 	game_is_loading: false,
@@ -28,21 +28,15 @@ const gameSlice = createSlice({
 			state.game_is_loading = action.payload.loading;
 		},
 		startGame(state, action) {
-			const level = action.payload.level;
 			const answer = action.payload.answer;
-			console.log("payload", level, "answer", answer);
+			console.log("answer", answer);
 			state.game_status = "active";
-			state.difficulty = level;
-			if (level === "medium") {
-				state.places = 4;
-				state.choices = 8;
-			} else if (level === "easy") {
-				state.places = 4;
-				state.choices = 4;
-			} else {
-				state.places = 4;
-				state.choices = 10;
-			}
+			state.difficulty = action.payload.level;
+
+			state.places = action.payload.places;
+			state.choices = action.payload.choices;
+			state.max_attempts = action.payload.max_attempts;
+
 			state.answer = answer;
 			state.allGuesses = [];
 			state.attempts = 0;
@@ -102,9 +96,29 @@ export const generateNewGame = (level) => {
 		dispatch(gameActions.game_loading({ loading: true }));
 		const fetchData = async () => {
 			let numbers = [];
-			// ?num=4&min=0&max=7&col=1&base=10&format=html&rnd=new
+			let choices = 0;
+			let places = 0;
+			let max_attempts = 0;
+			if (level === "medium") {
+				places = 4;
+				choices = 8;
+				max_attempts = 8;
+			} else if (level === "easy") {
+				places = 4;
+				choices = 4;
+				max_attempts = 8;
+			} else {
+				places = 4;
+				choices = 10;
+				max_attempts = 6;
+			}
+			// "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 			const response = await fetch(
-				"https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new"
+				`https://www.random.org/integers/?num=${encodeURIComponent(
+					places
+				)}&min=0&max=${encodeURIComponent(
+					choices - 1
+				)}&col=1&base=10&format=plain&rnd=new`
 			);
 			if (!response.ok) {
 				throw new Error("Couldnt generate the code");
@@ -117,11 +131,24 @@ export const generateNewGame = (level) => {
 				}
 			}
 
-			return numbers;
+			return {
+				numbers: numbers,
+				choices: choices,
+				places: places,
+				max_attempts: max_attempts,
+			};
 		};
 		try {
-			const answer = await fetchData();
-			dispatch(gameActions.startGame({ level: level, answer: answer }));
+			const data = await fetchData();
+			dispatch(
+				gameActions.startGame({
+					level: level,
+					choices: data.choices,
+					answer: data.numbers,
+					places: data.places,
+					max_attempts: data.max_attempts,
+				})
+			);
 			dispatch(gameActions.game_loading({ loading: false }));
 		} catch (error) {
 			console.log(error);
