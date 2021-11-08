@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { useState } from "react";
 import GuessItem from "./GuessItem";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,31 +11,26 @@ import GameOver from "./GameOver";
 
 import { useNavigate } from "react-router-dom";
 import { findNonSerializableValue } from "@reduxjs/toolkit";
+import Spinner from "./UI/Spinner";
 const Game = (props) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const game_status = useSelector((state) => state.game.game_status);
-	console.log("GAME COMPONENT: status", game_status);
-	// const places = useSelector((state) => state.game.places);
-	// const choices = useSelector((state) => state.game.choices);
+	const game_loading = useSelector((state) => state.game.game_is_loading);
 
-	// const answer = useSelector((state) => state.game.answer);
-
-	// console.log(allGuesses);
-	// let component = <GameOver />;
-	// if (game_status === "active") {
-	// 	component = <GuessList />;
-	// }
+	// const [showModal, setShowModal] = useState(true);
 	let showModal = true;
-	if (game_status === "active" || game_status == "stay") {
+	if (
+		game_status == "inactive" ||
+		game_status === "active" ||
+		game_status == "stay"
+	) {
 		showModal = false;
 	}
 	const newGameHandler = () => {
-		console.log("Starting new game");
 		navigate("/level", { replace: true });
 	};
 	const cancelGameHandler = () => {
-		console.log("Not Starting new game");
 		dispatch(gameActions.change_game_status({ status: "stay" }));
 	};
 
@@ -46,7 +41,7 @@ const Game = (props) => {
 			cancelGameHandler={cancelGameHandler}
 		></GameOver>
 	);
-	return (
+	let game = (
 		<div>
 			<Modal
 				show={showModal}
@@ -60,6 +55,10 @@ const Game = (props) => {
 			<GuessList />
 		</div>
 	);
+	if (game_loading) {
+		game = <Spinner />;
+	}
+	return game;
 };
 
 export default Game;

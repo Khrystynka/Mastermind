@@ -9,6 +9,7 @@ const gameInititalState = {
 	choices: 8,
 	answer: [],
 	game_status: "inactive",
+	game_is_loading: false,
 };
 
 const gameSlice = createSlice({
@@ -23,9 +24,13 @@ const gameSlice = createSlice({
 
 			state.game_status = action.payload.status;
 		},
+		game_loading(state, action) {
+			state.game_is_loading = action.payload.loading;
+		},
 		startGame(state, action) {
 			const level = action.payload.level;
-			console.log("payload", level);
+			const answer = action.payload.answer;
+			console.log("payload", level, "answer", answer);
 			state.game_status = "active";
 			state.difficulty = level;
 			if (level === "medium") {
@@ -38,7 +43,7 @@ const gameSlice = createSlice({
 				state.places = 4;
 				state.choices = 10;
 			}
-			state.answer = [1, 2, 3, 4];
+			state.answer = answer;
 			state.allGuesses = [];
 			state.attempts = 0;
 		},
@@ -91,5 +96,37 @@ const gameSlice = createSlice({
 	},
 });
 export const gameActions = gameSlice.actions;
+
+export const generateNewGame = (level) => {
+	return async (dispatch) => {
+		dispatch(gameActions.game_loading({ loading: true }));
+		const fetchData = async () => {
+			let numbers = [];
+			// ?num=4&min=0&max=7&col=1&base=10&format=html&rnd=new
+			const response = await fetch(
+				"https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new"
+			);
+			if (!response.ok) {
+				throw new Error("Couldnt generate the code");
+			}
+			let body = await response.text();
+			// console.log("response", Array.from(answer), typeof answer);
+			for (let j = 0; j < body.length; j++) {
+				if (body[j] !== "\n") {
+					numbers.push(parseInt(body[j]));
+				}
+			}
+
+			return numbers;
+		};
+		try {
+			const answer = await fetchData();
+			dispatch(gameActions.startGame({ level: level, answer: answer }));
+			dispatch(gameActions.game_loading({ loading: false }));
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
 
 export default gameSlice.reducer;

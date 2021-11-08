@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // import classes from "./GuessItem.module.css";
-
 const Initial = (props) => {
 	const navigate = useNavigate();
 	const startGameHandler = () => {
