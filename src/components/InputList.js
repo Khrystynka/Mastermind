@@ -1,9 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import InputBtn from "./InputBtn";
 import { gameActions } from "../store/game-slice";
+import useStyles from "./GuessItem.styles";
 
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 const InputList = (props) => {
+	const classes = useStyles();
+
 	const initialGuessArr = [0, 0, 0, 0];
 	const [guessArr, setGuessArr] = useState(initialGuessArr);
 	const dispatch = useDispatch();
@@ -23,13 +27,34 @@ const InputList = (props) => {
 		// console.log(allGuesses);
 	};
 	return (
-		<div>
-			{Object.keys(guessArr).map((id) => {
-				return <InputBtn id={id} change={changeHandler} text={guessArr[id]} />;
-			})}
-
-			<button onClick={() => submitHandler(guessArr)}>Guess</button>
-		</div>
+		<React.Fragment>
+			<ButtonGroup
+				variant="contained"
+				aria-label="outlined secondary button group"
+				className={classes.buttonGroupMR}
+			>
+				{Object.keys(guessArr).map((id) => {
+					return (
+						<Button
+							disableElevation
+							className={classes.button}
+							onClick={() => changeHandler(id)}
+						>
+							{guessArr[id]}
+						</Button>
+					);
+				})}
+			</ButtonGroup>
+			<Button
+				variant="contained"
+				// size="large"
+				// color="secondary"
+				className={classes.buttonMedium}
+				onClick={() => submitHandler(guessArr)}
+			>
+				Guess
+			</Button>
+		</React.Fragment>
 	);
 };
 

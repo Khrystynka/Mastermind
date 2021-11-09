@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import { gameActions } from "../store/game-slice";
 import { generateNewGame } from "../store/game-slice";
+import Box from "@mui/material/Box";
+import { alpha } from "@mui/material/styles";
+import { Button } from "@mui/material";
 
 const Level = () => {
 	const navigate = useNavigate();
@@ -16,11 +19,30 @@ const Level = () => {
 		navigate("/game");
 	};
 	return (
-		<div>
-			<button onClick={() => startGameHandler("easy")}>Easy</button>;
-			<button onClick={() => startGameHandler("medium")}>Medium</button>;
-			<button onClick={() => startGameHandler("hard")}>Hard</button>;
-		</div>
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				margin: "auto",
+			}}
+		>
+			<Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+				<Button variant="contained" onClick={() => startGameHandler("easy")}>
+					Easy Level
+				</Button>
+			</Box>
+			<Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+				<Button variant="contained" onClick={() => startGameHandler("medium")}>
+					Medium Level
+				</Button>
+			</Box>
+			<Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+				<Button variant="contained" onClick={() => startGameHandler("hard")}>
+					Hard Level
+				</Button>
+			</Box>
+		</Box>
 	);
 };
 

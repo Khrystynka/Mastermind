@@ -8,9 +8,9 @@ import GuessList from "./GuessList";
 import Backdrop from "./UI/Backdrop";
 import Modal from "./UI/Modal";
 import GameOver from "./GameOver";
-
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import { findNonSerializableValue } from "@reduxjs/toolkit";
 import Spinner from "./UI/Spinner";
 const Game = (props) => {
 	const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const Game = (props) => {
 	const attempts = useSelector((state) => state.game.attempts);
 	const max_attempts = useSelector((state) => state.game.max_attempts);
 	const loading_error = useSelector((state) => state.game.error);
+	const difficulty = useSelector((state) => state.game.difficulty);
 
 	// const [showModal, setShowModal] = useState(true);
 	let showModal = true;
@@ -45,8 +46,13 @@ const Game = (props) => {
 		></GameOver>
 	);
 	let game = (
-		<div>
-			<div>Attempts left: {max_attempts - attempts}</div>
+		<React.Fragment>
+			<Typography variant="body" display="block" gutterBottom>
+				Level: {difficulty}
+			</Typography>
+			<Typography variant="body" display="block">
+				Attempts: {max_attempts - attempts}
+			</Typography>
 			<Modal
 				show={showModal}
 				modalClosed={() => {
@@ -57,7 +63,7 @@ const Game = (props) => {
 				{gameSummary}
 			</Modal>
 			<GuessList />
-		</div>
+		</React.Fragment>
 	);
 	if (game_loading) {
 		game = <Spinner />;

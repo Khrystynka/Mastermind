@@ -5,12 +5,16 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./components/MUI/theme";
 import store from "./store/index";
 ReactDOM.render(
 	<BrowserRouter>
-		<Provider store={store}>
-			<App />
-		</Provider>
+		<ThemeProvider theme={theme}>
+			<Provider store={store}>
+				<App />
+			</Provider>
+		</ThemeProvider>
 	</BrowserRouter>,
 	document.getElementById("root")
 );
