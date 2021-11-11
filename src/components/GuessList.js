@@ -12,6 +12,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import { Paper } from "@mui/material";
 
 const GuessList = (props) => {
 	// const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const GuessList = (props) => {
 	const choices = useSelector((state) => state.game.choices);
 	const game_status = useSelector((state) => state.game.game_status);
 	const max_attempts = useSelector((state) => state.game.max_attempts);
+	const answer = useSelector((state) => state.game.answer);
 
 	console.log("GuessList", game_status);
 
@@ -29,9 +31,9 @@ const GuessList = (props) => {
 		navigate("/level", { replace: true });
 	};
 	console.log(allGuesses);
-	let controls = <InputList choices={choices} />;
+	let controls = <InputList choices={choices} places={places} answer={null} />;
 	if (game_status != "active") {
-		controls = <button onClick={newGameHandler}>Start new game</button>;
+		controls = <InputList choices={choices} places={places} answer={answer} />;
 	}
 	const empty_places = max_attempts - allGuesses.length;
 
@@ -47,28 +49,36 @@ const GuessList = (props) => {
 		// 	justifyContent: "center",
 		// }}
 		>
-			<List>
-				{allGuesses.map((obj) => {
-					return (
-						<GuessItem
-							guess={obj.guess}
-							inPos={obj.inPos}
-							corr={obj.corr}
-							incorr={places - obj.corr - obj.inPos}
-						/>
-					);
-				})}
-				{[...Array(empty_places).keys()].map(() => {
-					return (
-						<GuessItem
-							guess={Array.from("x".repeat(places))}
-							inPos={0}
-							corr={0}
-							incorr={places}
-						/>
-					);
-				})}
-			</List>
+			<Paper
+				style={{
+					overflow: "auto",
+					marginBottom: "0.8rem",
+					marginTop: "0.8rem",
+				}}
+			>
+				<List>
+					{allGuesses.map((obj) => {
+						return (
+							<GuessItem
+								guess={obj.guess}
+								inPos={obj.inPos}
+								corr={obj.corr}
+								incorr={places - obj.corr - obj.inPos}
+							/>
+						);
+					})}
+					{[...Array(empty_places).keys()].map(() => {
+						return (
+							<GuessItem
+								guess={Array.from("x".repeat(places))}
+								inPos={0}
+								corr={0}
+								incorr={places}
+							/>
+						);
+					})}
+				</List>
+			</Paper>
 			<Box
 				sx={{
 					marginTop: "auto",

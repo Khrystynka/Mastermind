@@ -1,11 +1,12 @@
 import React from "react";
 import classes from "./Modal.module.css";
 import Backdrop from "./Backdrop";
+import { Box } from "@mui/system";
 
 const Modal = (props) => {
 	return (
-		<div>
-			<div
+		<Box>
+			<Box
 				className={classes.Modal}
 				style={{
 					transform: props.show ? "translateY(0)" : "translateY(-100vh)",
@@ -13,9 +14,9 @@ const Modal = (props) => {
 				}}
 			>
 				{props.children}
-			</div>
+			</Box>
 			<Backdrop show={props.show} clicked={props.modalClosed}></Backdrop>
-		</div>
+		</Box>
 	);
 };
 

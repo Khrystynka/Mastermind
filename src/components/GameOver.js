@@ -1,17 +1,41 @@
 import React from "react";
+import { Box } from "@mui/system";
+import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 const gameOver = (props) => {
 	let message = "You Lost!";
+	let msg_color = "black";
 	if (props.status === "won") {
 		message = "You won!";
+		msg_color = "red";
 	}
 	return (
-		<div>
-			<div>
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "center",
+			}}
+		>
+			<Typography
+				align="center"
+				color={msg_color}
+				variant="h6"
+				gutterBottom
+				component="div"
+			>
 				{message}
-				<button onClick={props.newGameHandler}>New Game</button>
-				<button onClick={props.cancelGameHandler}>Cancel</button>
-			</div>
-		</div>
+			</Typography>
+			<Stack justifyContent="center" direction="row" spacing={2}>
+				<Button variant="contained" onClick={props.newGameHandler}>
+					New Game
+				</Button>
+				<Button variant="contained" onClick={props.cancelGameHandler}>
+					Cancel
+				</Button>
+			</Stack>
+		</Box>
 	);
 };
 
