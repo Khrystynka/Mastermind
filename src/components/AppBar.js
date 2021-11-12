@@ -31,11 +31,7 @@ export default function ButtonAppBar() {
 							label={`Score: ${score}/${total_games}`}
 						/>
 						<Chip
-							label={
-								game_status === "inactive" || game_status === "stay"
-									? "New game"
-									: `Level: ${level}`
-							}
+							label={game_status === "stay" ? "New game" : `Level: ${level}`}
 							variant="filled"
 							color="secondary"
 							onClick={newGameHandler}

@@ -17,8 +17,6 @@ const gameSlice = createSlice({
 	initialState: gameInititalState,
 	reducers: {
 		change_game_status(state, action) {
-			console.log("payload", action.payload.status);
-
 			state.game_status = action.payload.status;
 		},
 		game_loading(state, action) {
@@ -49,6 +47,9 @@ const gameSlice = createSlice({
 			let correctNumbers = 0;
 			let remain_ans = [];
 			let remain_guess = [];
+			if (state.game_status !== "active") {
+				return;
+			}
 			for (let i = 0; i < state.places; i++) {
 				if (guess[i] === state.answer[i]) {
 					correctPlaces += 1;
@@ -80,53 +81,54 @@ const gameSlice = createSlice({
 });
 export const gameActions = gameSlice.actions;
 
+const fetchData = async (level) => {
+	let choices = 0;
+	let places = 0;
+	let max_attempts = 0;
+	if (level === "medium") {
+		places = 4;
+		choices = 8;
+		max_attempts = 10;
+	} else if (level === "easy") {
+		places = 4;
+		choices = 4;
+		max_attempts = 8;
+	} else {
+		places = 6;
+		choices = 20;
+		max_attempts = 15;
+	}
+	const URL = `https://www.random.org/integers/?num=${encodeURIComponent(
+		places
+	)}&min=0&max=${encodeURIComponent(
+		choices - 1
+	)}&col=1&base=10&format=plain&rnd=new`;
+
+	const response = await fetch(URL);
+	if (!response.ok) {
+		throw new Error("Couldnt generate the combination code");
+	}
+	let body = await response.text();
+
+	let numbers = body
+		.split("\n")
+		.filter((x) => x !== "")
+		.map((x) => parseInt(x));
+
+	return {
+		numbers: numbers,
+		choices: choices,
+		places: places,
+		max_attempts: max_attempts,
+	};
+};
+
 export const generateNewGame = (level) => {
 	return async (dispatch) => {
 		dispatch(gameActions.game_loading({ loading: true, error: false }));
-		const fetchData = async () => {
-			let choices = 0;
-			let places = 0;
-			let max_attempts = 0;
-			if (level === "medium") {
-				places = 4;
-				choices = 8;
-				max_attempts = 10;
-			} else if (level === "easy") {
-				places = 4;
-				choices = 4;
-				max_attempts = 8;
-			} else {
-				places = 6;
-				choices = 20;
-				max_attempts = 15;
-			}
-			const URL = `https://www.random.org/integers/?num=${encodeURIComponent(
-				places
-			)}&min=0&max=${encodeURIComponent(
-				choices - 1
-			)}&col=1&base=10&format=plain&rnd=new`;
-			console.log("URL", URL);
 
-			const response = await fetch(URL);
-			if (!response.ok) {
-				throw new Error("Couldnt generate the code");
-			}
-			let body = await response.text();
-
-			let numbers = body
-				.split("\n")
-				.filter((x) => x !== "")
-				.map((x) => parseInt(x));
-
-			return {
-				numbers: numbers,
-				choices: choices,
-				places: places,
-				max_attempts: max_attempts,
-			};
-		};
 		try {
-			const data = await fetchData();
+			const data = await fetchData(level);
 			console.log("ANSWER", data.numbers);
 			dispatch(
 				gameActions.startGame({
