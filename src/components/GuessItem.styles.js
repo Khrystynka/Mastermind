@@ -1,5 +1,4 @@
 import { makeStyles } from "@mui/styles";
-import { borders } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({
 	correctNumber: {
@@ -33,13 +32,13 @@ const useStyles = makeStyles((theme) => ({
 
 	button: {
 		borderRadius: "10%",
-		height: "2rem",
-		width: "2rem",
+		height: "2em",
+		width: "2em",
 	},
 	buttonMedium: {
 		borderRadius: "10%",
-		height: "2rem",
-		width: "4rem",
+		height: "2em",
+		width: "4em",
 	},
 	buttonGroupML: {
 		marginLeft: "1rem",

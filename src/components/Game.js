@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-// import { useState } from "react";
-import GuessItem from "./GuessItem";
 import { useSelector, useDispatch } from "react-redux";
 import { gameActions } from "../store/game-slice";
 import { scoreActions } from "../store/score-slice";
-
-import InputList from "./InputList";
 import GuessList from "./GuessList";
-import Backdrop from "./UI/Backdrop";
 import Modal from "./UI/Modal";
 import GameOver from "./GameOver";
 import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./UI/Spinner";
-let Initial = true;
 
 const Game = (props) => {
 	const dispatch = useDispatch();
@@ -25,16 +18,15 @@ const Game = (props) => {
 	const attempts = useSelector((state) => state.game.attempts);
 	const max_attempts = useSelector((state) => state.game.max_attempts);
 	const loading_error = useSelector((state) => state.game.error);
-
 	const score = useSelector((state) => state.score.score);
 	const total_games = useSelector((state) => state.score.total_games);
 
 	const [showModal, setShowModal] = useState(true);
 	useEffect(() => {
 		if (
-			game_status == "inactive" ||
+			game_status === "inactive" ||
 			game_status === "active" ||
-			game_status == "stay"
+			game_status === "stay"
 		) {
 			setShowModal(false);
 		} else {
@@ -42,14 +34,14 @@ const Game = (props) => {
 			dispatch(scoreActions.add_games());
 			dispatch(scoreActions.add_score({ status: game_status }));
 		}
-	}, [game_status]);
+	}, [game_status, dispatch]);
 
 	useEffect(() => {
 		if (game_status === "won" || game_status === "lost") {
 			localStorage.setItem("score", score);
 			localStorage.setItem("total_games", total_games);
 		}
-	}, [score, total_games]);
+	}, [score, total_games, game_status]);
 
 	const newGameHandler = () => {
 		navigate("/level", { replace: true });
@@ -73,7 +65,6 @@ const Game = (props) => {
 			<Modal
 				show={showModal}
 				modalClosed={() => {
-					console.log("Modal closed");
 					cancelGameHandler();
 				}}
 			>

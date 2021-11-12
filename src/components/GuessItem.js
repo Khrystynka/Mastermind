@@ -1,11 +1,8 @@
 import React from "react";
-import classes from "./GuessItem.module.css";
 import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import useStyles from "./GuessItem.styles";
-import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
-import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
@@ -15,32 +12,26 @@ const GuessItem = (props) => {
 	const arr3 = [...Array(props.incorr).keys()];
 	const classes = useStyles();
 	return (
-		<ListItem style={{ display: "flex", justifyContent: "center" }}>
-			<Box sx={{ display: "flex", justifyContent: "flexStart" }}>
-				{/* <Container> */}
-				<Grid
-					container
-					// spacing={0}
-					rowSpacing={0}
-					columnSpacing={0}
-				>
-					{arr1.map((x) => {
+		<ListItem style={{ display: "flex", justifyContent: "flexStart" }}>
+			<Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+				<Grid container spacing={0.1}>
+					{arr1.map((_, key) => {
 						return (
-							<Grid item xs style={{ display: "flex", alignItems: "center" }}>
+							<Grid item key={key} xs>
 								<Box className={classes.correctLocation}></Box>
 							</Grid>
 						);
 					})}
-					{arr2.map((x) => {
+					{arr2.map((_, key) => {
 						return (
-							<Grid item xs style={{ display: "flex", alignItems: "center" }}>
+							<Grid item key={key} xs>
 								<Box className={classes.correctNumber}></Box>
 							</Grid>
 						);
 					})}
-					{arr3.map((x) => {
+					{arr3.map((x, key) => {
 						return (
-							<Grid item xs style={{ display: "flex", alignItems: "center" }}>
+							<Grid item key={key} xs>
 								<Box className={classes.incorrectNumber}></Box>
 							</Grid>
 						);
@@ -52,7 +43,7 @@ const GuessItem = (props) => {
 				variant="contained"
 				aria-label="outlined primary button group"
 				className={classes.buttonGroupML}
-				style={{ flex: "flexGrow" }}
+				// style={{ flex: "flexGrow" }}
 			>
 				{props.guess.map((value) => {
 					const btn =

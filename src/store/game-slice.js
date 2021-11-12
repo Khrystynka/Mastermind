@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { scoreActions } from "./score-slice";
 const gameInititalState = {
 	allGuesses: [],
 	max_attempts: 0,
@@ -89,9 +88,9 @@ export const generateNewGame = (level) => {
 			let places = 0;
 			let max_attempts = 0;
 			if (level === "medium") {
-				places = 2;
-				choices = 40;
-				max_attempts = 4;
+				places = 4;
+				choices = 8;
+				max_attempts = 10;
 			} else if (level === "easy") {
 				places = 4;
 				choices = 4;
@@ -99,7 +98,7 @@ export const generateNewGame = (level) => {
 			} else {
 				places = 6;
 				choices = 20;
-				max_attempts = 23;
+				max_attempts = 15;
 			}
 			const URL = `https://www.random.org/integers/?num=${encodeURIComponent(
 				places
@@ -108,7 +107,6 @@ export const generateNewGame = (level) => {
 			)}&col=1&base=10&format=plain&rnd=new`;
 			console.log("URL", URL);
 
-			// "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 			const response = await fetch(URL);
 			if (!response.ok) {
 				throw new Error("Couldnt generate the code");

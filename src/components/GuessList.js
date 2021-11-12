@@ -1,21 +1,13 @@
 import React from "react";
-// import { useState } from "react";
 import GuessItem from "./GuessItem";
-import { useSelector, useDispatch } from "react-redux";
-// import { gameActions } from "../store/game-slice";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import InputList from "./InputList";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
+
 import { Paper } from "@mui/material";
 
 const GuessList = (props) => {
-	// const dispatch = useDispatch();
 	const allGuesses = useSelector((state) => state.game.allGuesses);
 	const places = useSelector((state) => state.game.places);
 	const choices = useSelector((state) => state.game.choices);
@@ -23,43 +15,27 @@ const GuessList = (props) => {
 	const max_attempts = useSelector((state) => state.game.max_attempts);
 	const answer = useSelector((state) => state.game.answer);
 
-	console.log("GuessList", game_status);
-
-	const navigate = useNavigate();
-	// const answer = useSelector((state) => state.game.answer);
-	const newGameHandler = () => {
-		navigate("/level", { replace: true });
-	};
-	console.log(allGuesses);
 	let controls = <InputList choices={choices} places={places} answer={null} />;
-	if (game_status != "active") {
+	if (game_status !== "active") {
 		controls = <InputList choices={choices} places={places} answer={answer} />;
 	}
 	const empty_places = max_attempts - allGuesses.length;
 
 	return (
-		<React.Fragment
-		// sx={{
-		// 	width: "100%",
-		// 	maxWidth: 360,
-		// 	bgcolor: "background.paper",
-		// 	display: "flex",
-		// 	flexDirection: "column",
-		// 	alignItems: "center",
-		// 	justifyContent: "center",
-		// }}
-		>
+		<React.Fragment>
 			<Paper
 				style={{
 					overflow: "auto",
 					marginBottom: "0.8rem",
 					marginTop: "0.8rem",
+					// margin: "0.8rem",
 				}}
 			>
 				<List>
-					{allGuesses.map((obj) => {
+					{allGuesses.map((obj, key) => {
 						return (
 							<GuessItem
+								key={key}
 								guess={obj.guess}
 								inPos={obj.inPos}
 								corr={obj.corr}
@@ -67,9 +43,10 @@ const GuessList = (props) => {
 							/>
 						);
 					})}
-					{[...Array(empty_places).keys()].map(() => {
+					{[...Array(empty_places).keys()].map((_, key) => {
 						return (
 							<GuessItem
+								key={key}
 								guess={Array.from("x".repeat(places))}
 								inPos={0}
 								corr={0}

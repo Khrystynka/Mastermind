@@ -3,8 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Chip } from "@mui/material";
@@ -20,18 +18,9 @@ export default function ButtonAppBar() {
 		navigate("/level", { replace: true });
 	};
 	return (
-		<Box sx={{ flexGrow: 1, marginBottom: "10px" }}>
+		<Box sx={{ flexGrow: 1, marginBottom: "0.8em" }}>
 			<AppBar position="static">
 				<Toolbar>
-					{/* <IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						aria-label="icon"
-						sx={{ mr: 2 }}
-					>
-						<div>Add icon</div>
-					</IconButton> */}
 					<Typography variant="h7" component="div" sx={{ flexGrow: 1 }}>
 						MASTERMIND
 					</Typography>
@@ -52,12 +41,6 @@ export default function ButtonAppBar() {
 							onClick={newGameHandler}
 						/>
 					</Stack>
-					{/* <Button color="inherit" onClick={() => {}}>
-						Score:
-					</Button>
-					<Button color="inherit" onClick={newGameHandler}>
-						{game_status === "inactive" ? "New game" : `Level: ${level}`}
-					</Button> */}
 				</Toolbar>
 			</AppBar>
 		</Box>
