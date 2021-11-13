@@ -17,6 +17,7 @@ export default function ButtonAppBar() {
 	const newGameHandler = () => {
 		navigate("/level", { replace: true });
 	};
+	console.log("RENDERING SCORE");
 	return (
 		<Box sx={{ flexGrow: 1, marginBottom: "0.8em" }}>
 			<AppBar position="static">

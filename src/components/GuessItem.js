@@ -12,38 +12,42 @@ const GuessItem = (props) => {
 	const arr3 = [...Array(props.incorr).keys()];
 	const classes = useStyles();
 	return (
-		<ListItem style={{ display: "flex", justifyContent: "flexStart" }}>
-			<Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-				<Grid container spacing={0.1}>
-					{arr1.map((_, key) => {
-						return (
-							<Grid item key={key} xs>
-								<Box className={classes.correctLocation}></Box>
-							</Grid>
-						);
-					})}
-					{arr2.map((_, key) => {
-						return (
-							<Grid item key={key} xs>
-								<Box className={classes.correctNumber}></Box>
-							</Grid>
-						);
-					})}
-					{arr3.map((x, key) => {
-						return (
-							<Grid item key={key} xs>
-								<Box className={classes.incorrectNumber}></Box>
-							</Grid>
-						);
-					})}
-				</Grid>
-			</Box>
+		<ListItem>
+			<Grid
+				container
+				spacing={0.1}
+				container
+				direction="row"
+				justifyContent="flex-start"
+				alignItems="flex-start"
+			>
+				{arr1.map((_, key) => {
+					return (
+						<Grid item key={key} xs>
+							<Box className={classes.correctLocation}></Box>
+						</Grid>
+					);
+				})}
+				{arr2.map((_, key) => {
+					return (
+						<Grid item key={key} xs>
+							<Box className={classes.correctNumber}></Box>
+						</Grid>
+					);
+				})}
+				{arr3.map((_, key) => {
+					return (
+						<Grid item xs={6} key={key} xs>
+							<Box className={classes.incorrectNumber}></Box>
+						</Grid>
+					);
+				})}
+			</Grid>
 
 			<ButtonGroup
 				variant="contained"
 				aria-label="outlined primary button group"
 				className={classes.buttonGroupML}
-				// style={{ flex: "flexGrow" }}
 			>
 				{props.guess.map((value) => {
 					const btn =

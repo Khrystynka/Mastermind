@@ -9,7 +9,7 @@ import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./UI/Spinner";
-
+import { Container } from "@mui/material";
 const Game = (props) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -19,9 +19,23 @@ const Game = (props) => {
 	const max_attempts = useSelector((state) => state.game.max_attempts);
 	const loading_error = useSelector((state) => state.game.error);
 	const score = useSelector((state) => state.score.score);
+	const timed = useSelector((state) => state.game.timed);
 	const total_games = useSelector((state) => state.score.total_games);
-
+	const finishTime = useSelector((state) => state.game.finishTime);
 	const [showModal, setShowModal] = useState(true);
+	const [timeLeft, setTimeLeft] = useState(null);
+	useEffect(() => {
+		let timer = null;
+		if (finishTime && game_status === "active") {
+			timer = setInterval(() => {
+				const time = finishTime - Date.now();
+				setTimeLeft(time);
+			}, 500);
+		}
+
+		return () => clearInterval(timer);
+	}, [game_status, finishTime, timeLeft]);
+
 	useEffect(() => {
 		if (
 			game_status === "inactive" ||
@@ -49,6 +63,11 @@ const Game = (props) => {
 	const cancelGameHandler = () => {
 		dispatch(gameActions.change_game_status({ status: "stay" }));
 	};
+	const formatTime = (ms) => {
+		const minutes = Math.floor(ms / 60000);
+		const seconds = ((ms % 60000) / 1000).toFixed(0);
+		return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+	};
 
 	const gameSummary = (
 		<GameOver
@@ -59,9 +78,17 @@ const Game = (props) => {
 	);
 	let game = (
 		<React.Fragment>
-			<Button variant="body" display="block" gutterBottom>
-				Attempts left: {max_attempts - attempts}
-			</Button>
+			<Container>
+				<Button variant="body" display="block" gutterBottom>
+					Attempts left: {max_attempts - attempts}
+				</Button>
+				{timed ? (
+					<Button variant="body" display="block" gutterBottom>
+						Time left: {formatTime(timeLeft)}
+					</Button>
+				) : null}
+			</Container>
+
 			<Modal
 				show={showModal}
 				modalClosed={() => {

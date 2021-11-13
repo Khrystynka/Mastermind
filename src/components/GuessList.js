@@ -59,6 +59,7 @@ const GuessList = (props) => {
 			<Box
 				sx={{
 					marginTop: "auto",
+					marginBottom: "1rem",
 				}}
 			>
 				{controls}

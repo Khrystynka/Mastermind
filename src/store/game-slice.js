@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+let timer = null;
+const INTERVAL = 20;
 const gameInititalState = {
 	allGuesses: [],
 	max_attempts: 0,
@@ -10,6 +12,8 @@ const gameInititalState = {
 	game_status: "inactive",
 	game_is_loading: false,
 	error: false,
+	timed: false,
+	finishTime: null,
 };
 
 const gameSlice = createSlice({
@@ -28,15 +32,30 @@ const gameSlice = createSlice({
 				state.game_status = "active";
 			}
 		},
+
+		stopTimer(state) {
+			state.timed = false;
+			state.timer_ended = true;
+			state.finishTime = null;
+			if (state.game_status == "active") {
+				state.game_status = "lost";
+			}
+		},
 		startGame(state, action) {
 			const answer = action.payload.answer;
+			state.timed = false;
+			state.finishTime = null;
+
+			if (action.payload.level === "hard") {
+				state.timed = true;
+				state.finishTime = Date.now() + INTERVAL * 1000;
+			}
 			state.game_status = "active";
 			state.level = action.payload.level;
 
 			state.places = action.payload.places;
 			state.choices = action.payload.choices;
 			state.max_attempts = action.payload.max_attempts;
-
 			state.answer = answer;
 			state.allGuesses = [];
 			state.attempts = 0;
@@ -95,8 +114,8 @@ const fetchData = async (level) => {
 		max_attempts = 8;
 	} else {
 		places = 6;
-		choices = 20;
-		max_attempts = 15;
+		choices = 6;
+		max_attempts = 12;
 	}
 	const URL = `https://www.random.org/integers/?num=${encodeURIComponent(
 		places
@@ -122,7 +141,17 @@ const fetchData = async (level) => {
 		max_attempts: max_attempts,
 	};
 };
-
+export const acStartTimer = (level) => {
+	console.log("Timer", timer);
+	return (dispatch) => {
+		clearTimeout(timer);
+		if (level === "hard") {
+			timer = setTimeout(() => {
+				dispatch(gameActions.stopTimer());
+			}, INTERVAL * 1000);
+		}
+	};
+};
 export const generateNewGame = (level) => {
 	return async (dispatch) => {
 		dispatch(gameActions.game_loading({ loading: true, error: false }));
@@ -130,6 +159,8 @@ export const generateNewGame = (level) => {
 		try {
 			const data = await fetchData(level);
 			console.log("ANSWER", data.numbers);
+			dispatch(acStartTimer(level));
+
 			dispatch(
 				gameActions.startGame({
 					level: level,

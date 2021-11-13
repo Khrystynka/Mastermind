@@ -24,18 +24,17 @@ const InputList = (props) => {
 		dispatch(gameActions.addGuess({ guess: guess }));
 	};
 	let redClass = props.answer ? classes.red : null;
-
 	return (
 		<React.Fragment>
 			<Grid
 				container
-				spacing={2}
+				spacing={1}
 				flexDirection="row"
 				justifyContent="center"
 				alignItems="center"
-				margin="auto"
+				p={1}
 			>
-				<Grid item sm={6}>
+				<Grid item>
 					<Button
 						variant="contained"
 						className={` ${redClass}`}
@@ -44,12 +43,8 @@ const InputList = (props) => {
 						{props.answer ? "Answer:" : "Guess:"}
 					</Button>
 				</Grid>
-				<Grid item sm={6}>
-					<ButtonGroup
-						variant="contained"
-						aria-label="outlined secondary button group"
-						// className={classes.buttonLarge}
-					>
+				<Grid item>
+					<ButtonGroup variant="contained">
 						{props.answer
 							? props.answer.map((value, key) => {
 									return (
