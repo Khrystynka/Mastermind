@@ -36,11 +36,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "0.8rem",
 		marginTop: "0.8rem",
 	},
-	// gridFlexStart: {
-	// 	direction: "row",
-	// 	justifyContent: "flex-start",
-	// 	alignItems: "flex-start",
-	// },
+
 	gridCentered: {
 		flexDirection: "column",
 		justifyContent: "center",
@@ -59,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 	buttonInputM: {
 		borderRadius: "10%",
 		height: "2.5em",
-		// width: "8em",
 	},
 	buttonInputSm: {
 		borderRadius: "10%",

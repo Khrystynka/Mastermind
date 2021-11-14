@@ -9,7 +9,6 @@ const scoreSlice = createSlice({
 	initialState: scoreInitialState,
 	reducers: {
 		addScore(state, action) {
-			console.log("Inside score reducer", action.payload.status);
 			if (action.payload.status === "won") {
 				state.score += 1;
 			}

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const Welcome = (props) => {
+const Welcome = () => {
 	const navigate = useNavigate();
 	const startGameHandler = () => {
 		navigate("/level", { replace: true });

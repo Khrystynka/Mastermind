@@ -33,11 +33,10 @@ const gameSlice = createSlice({
 				state.gameStatus = "active";
 			}
 		},
-
 		stopTimer(state) {
 			state.timed = false;
 			state.finishTime = null;
-			if (state.gameStatus == "active") {
+			if (state.gameStatus === "active") {
 				state.gameStatus = "lost";
 			}
 		},
