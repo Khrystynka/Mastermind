@@ -19,7 +19,7 @@ let InitialLoad = true;
 function App() {
 	const dispatch = useDispatch();
 	const level = useSelector((state) => state.game.level);
-	const gameLoading = useSelector((state) => state.game.game_is_loading);
+	const gameLoading = useSelector((state) => state.game.isLoading);
 	const classes = useStyles();
 	useEffect(() => {
 		if (InitialLoad) {
@@ -28,9 +28,9 @@ function App() {
 			const storageTotalGames = localStorage.getItem("total_games");
 			if (storageScore !== null && storageTotalGames !== null) {
 				dispatch(
-					scoreActions.set_score({
+					scoreActions.setScore({
 						score: storageScore,
-						total_games: storageTotalGames,
+						totalGames: storageTotalGames,
 					})
 				);
 			}

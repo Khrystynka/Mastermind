@@ -13,11 +13,9 @@ const InputList = (props) => {
 	const [guessArr, setGuessArr] = useState(initialGuessArr);
 	const dispatch = useDispatch();
 	const changeHandler = (btnNum) => {
-		console.log("Old Guess Array", guessArr);
-
-		const new_arr = [...guessArr];
-		new_arr[btnNum] = (new_arr[btnNum] + 1) % props.choices;
-		setGuessArr(new_arr);
+		const tempArr = [...guessArr];
+		tempArr[btnNum] = (tempArr[btnNum] + 1) % props.choices;
+		setGuessArr(tempArr);
 	};
 	const submitHandler = (guess) => {
 		console.log("clicked", guess);

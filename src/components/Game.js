@@ -13,20 +13,20 @@ import { Container } from "@mui/material";
 const Game = (props) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const game_status = useSelector((state) => state.game.game_status);
-	const game_loading = useSelector((state) => state.game.game_is_loading);
+	const gameStatus = useSelector((state) => state.game.gameStatus);
+	const gameLoading = useSelector((state) => state.game.isLoading);
 	const attempts = useSelector((state) => state.game.attempts);
-	const max_attempts = useSelector((state) => state.game.max_attempts);
-	const loading_error = useSelector((state) => state.game.error);
+	const maxAttempts = useSelector((state) => state.game.maxAttempts);
+	const loadingError = useSelector((state) => state.game.error);
 	const score = useSelector((state) => state.score.score);
 	const timed = useSelector((state) => state.game.timed);
-	const total_games = useSelector((state) => state.score.total_games);
+	const totalGames = useSelector((state) => state.score.totalGames);
 	const finishTime = useSelector((state) => state.game.finishTime);
 	const [showModal, setShowModal] = useState(true);
 	const [timeLeft, setTimeLeft] = useState(null);
 	useEffect(() => {
 		let timer = null;
-		if (finishTime && game_status === "active") {
+		if (finishTime && gameStatus === "active") {
 			timer = setInterval(() => {
 				const time = finishTime - Date.now();
 				setTimeLeft(time);
@@ -34,34 +34,34 @@ const Game = (props) => {
 		}
 
 		return () => clearInterval(timer);
-	}, [game_status, finishTime, timeLeft]);
+	}, [gameStatus, finishTime, timeLeft]);
 
 	useEffect(() => {
 		if (
-			game_status === "inactive" ||
-			game_status === "active" ||
-			game_status === "stay"
+			gameStatus === "inactive" ||
+			gameStatus === "active" ||
+			gameStatus === "stay"
 		) {
 			setShowModal(false);
 		} else {
 			setShowModal(true);
-			dispatch(scoreActions.add_games());
-			dispatch(scoreActions.add_score({ status: game_status }));
+			dispatch(scoreActions.addGames());
+			dispatch(scoreActions.addScore({ status: gameStatus }));
 		}
-	}, [game_status, dispatch]);
+	}, [gameStatus, dispatch]);
 
 	useEffect(() => {
-		if (game_status === "won" || game_status === "lost") {
+		if (gameStatus === "won" || gameStatus === "lost") {
 			localStorage.setItem("score", score);
-			localStorage.setItem("total_games", total_games);
+			localStorage.setItem("total_games", totalGames);
 		}
-	}, [score, total_games, game_status]);
+	}, [score, totalGames, gameStatus]);
 
 	const newGameHandler = () => {
 		navigate("/level", { replace: true });
 	};
 	const cancelGameHandler = () => {
-		dispatch(gameActions.change_game_status({ status: "stay" }));
+		dispatch(gameActions.changeGameStatus({ status: "stay" }));
 	};
 	const formatTime = (ms) => {
 		const minutes = Math.floor(ms / 60000);
@@ -71,7 +71,7 @@ const Game = (props) => {
 
 	const gameSummary = (
 		<GameOver
-			status={game_status}
+			status={gameStatus}
 			newGameHandler={newGameHandler}
 			cancelGameHandler={cancelGameHandler}
 		></GameOver>
@@ -80,7 +80,7 @@ const Game = (props) => {
 		<React.Fragment>
 			<Container>
 				<Button variant="body" display="block">
-					Attempts left: {max_attempts - attempts}
+					Attempts left: {maxAttempts - attempts}
 				</Button>
 				{timed ? (
 					<Button variant="body" display="block">
@@ -100,10 +100,10 @@ const Game = (props) => {
 			<GuessList />
 		</React.Fragment>
 	);
-	if (game_loading) {
+	if (gameLoading) {
 		game = <Spinner />;
 	}
-	if (loading_error) {
+	if (loadingError) {
 		game = (
 			<Typography variant="body" display="block">
 				An error ocurred while fetching the game...

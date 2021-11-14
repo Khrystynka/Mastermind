@@ -1,9 +1,6 @@
 import React from "react";
 import { render as rtlRender } from "@testing-library/react";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import gameReducer from "./store/game-slice";
-import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { ThemeProvider } from "@mui/material/styles";

@@ -15,30 +15,34 @@ import reducer, { gameActions } from "./game-slice";
 test("should return the initial state", () => {
 	expect(reducer(undefined, {})).toEqual({
 		allGuesses: [],
-		max_attempts: 0,
+		maxAttempts: 0,
 		attempts: 0,
 		level: 0,
 		places: 0,
 		choices: 0,
 		answer: [],
-		game_status: "inactive",
-		game_is_loading: false,
+		gameStatus: "inactive",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	});
 });
 
 test("should handle a new game created", () => {
 	const previousState = {
 		allGuesses: [],
-		max_attempts: 0,
+		maxAttempts: 0,
 		attempts: 0,
 		level: 0,
 		places: 0,
 		choices: 0,
 		answer: [],
-		game_status: "inactive",
-		game_is_loading: false,
+		gameStatus: "inactive",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	};
 	expect(
 		reducer(
@@ -48,34 +52,38 @@ test("should handle a new game created", () => {
 				choices: 4,
 				answer: [3, 0, 2, 1],
 				places: 4,
-				max_attempts: 8,
+				maxAttempts: 8,
 			})
 		)
 	).toEqual({
 		allGuesses: [],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 0,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "active",
-		game_is_loading: false,
+		gameStatus: "active",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	});
 });
 test("should handle a new guess", () => {
 	const previousState = {
 		allGuesses: [],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 0,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "active",
-		game_is_loading: false,
+		gameStatus: "active",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	};
 	expect(
 		reducer(
@@ -85,30 +93,34 @@ test("should handle a new guess", () => {
 			})
 		)
 	).toEqual({
-		allGuesses: [{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 }],
-		max_attempts: 8,
+		allGuesses: [{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 }],
+		maxAttempts: 8,
 		attempts: 1,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "active",
-		game_is_loading: false,
+		gameStatus: "active",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	});
 });
 test("should detect the winner", () => {
 	const previousState = {
-		allGuesses: [{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 }],
-		max_attempts: 8,
+		allGuesses: [{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 }],
+		maxAttempts: 8,
 		attempts: 1,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "active",
-		game_is_loading: false,
+		gameStatus: "active",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	};
 	expect(
 		reducer(
@@ -119,40 +131,44 @@ test("should detect the winner", () => {
 		)
 	).toEqual({
 		allGuesses: [
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 0, guess: [3, 0, 2, 1], inPos: 4 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 0, guess: [3, 0, 2, 1], corrPos: 4 },
 		],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 2,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "won",
-		game_is_loading: false,
+		gameStatus: "won",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	});
 });
 test("should detect the user lost", () => {
 	const previousState = {
 		allGuesses: [
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
 		],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 7,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "active",
-		game_is_loading: false,
+		gameStatus: "active",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	};
 	expect(
 		reducer(
@@ -163,24 +179,26 @@ test("should detect the user lost", () => {
 		)
 	).toEqual({
 		allGuesses: [
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 0, guess: [0, 0, 2, 1], inPos: 3 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 0, guess: [0, 0, 2, 1], corrPos: 3 },
 		],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 8,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "lost",
-		game_is_loading: false,
+		gameStatus: "lost",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	});
 });
 
@@ -209,24 +227,26 @@ test("should detect the user lost", () => {
 test("should detect the invalid attemt to guess after the set amount of tries", () => {
 	const previousState = {
 		allGuesses: [
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 0, guess: [0, 0, 2, 1], inPos: 3 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 0, guess: [0, 0, 2, 1], corrPos: 3 },
 		],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 8,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "lost",
-		game_is_loading: false,
+		gameStatus: "lost",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	};
 	expect(
 		reducer(
@@ -237,23 +257,25 @@ test("should detect the invalid attemt to guess after the set amount of tries", 
 		)
 	).toEqual({
 		allGuesses: [
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 3, guess: [2, 3, 0, 1], inPos: 1 },
-			{ corr: 0, guess: [0, 0, 2, 1], inPos: 3 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 3, guess: [2, 3, 0, 1], corrPos: 1 },
+			{ corrNum: 0, guess: [0, 0, 2, 1], corrPos: 3 },
 		],
-		max_attempts: 8,
+		maxAttempts: 8,
 		attempts: 8,
 		level: "easy",
 		places: 4,
 		choices: 4,
 		answer: [3, 0, 2, 1],
-		game_status: "lost",
-		game_is_loading: false,
+		gameStatus: "lost",
+		isLoading: false,
 		error: false,
+		timed: false,
+		finishTime: null,
 	});
 });

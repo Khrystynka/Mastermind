@@ -11,15 +11,15 @@ const GuessList = (props) => {
 	const allGuesses = useSelector((state) => state.game.allGuesses);
 	const places = useSelector((state) => state.game.places);
 	const choices = useSelector((state) => state.game.choices);
-	const game_status = useSelector((state) => state.game.game_status);
-	const max_attempts = useSelector((state) => state.game.max_attempts);
+	const gameStatus = useSelector((state) => state.game.gameStatus);
+	const maxAttempts = useSelector((state) => state.game.maxAttempts);
 	const answer = useSelector((state) => state.game.answer);
 	const classes = useStyles();
 	let controls = <InputList choices={choices} places={places} answer={null} />;
-	if (game_status !== "active") {
+	if (gameStatus !== "active") {
 		controls = <InputList choices={choices} places={places} answer={answer} />;
 	}
-	const empty_places = max_attempts - allGuesses.length;
+	const emptyPlaces = maxAttempts - allGuesses.length;
 
 	return (
 		<React.Fragment>
@@ -36,7 +36,7 @@ const GuessList = (props) => {
 							/>
 						);
 					})}
-					{[...Array(empty_places).keys()].map((_, key) => {
+					{[...Array(emptyPlaces).keys()].map((_, key) => {
 						return (
 							<GuessItem
 								key={key}

@@ -4,14 +4,14 @@ const INTERVAL = 20;
 
 const gameInititalState = {
 	allGuesses: [],
-	max_attempts: 0,
+	maxAttempts: 0,
 	attempts: 0,
 	level: 0,
 	places: 0,
 	choices: 0,
 	answer: [],
-	game_status: "inactive",
-	game_is_loading: false,
+	gameStatus: "inactive",
+	isLoading: false,
 	error: false,
 	timed: false,
 	finishTime: null,
@@ -21,25 +21,24 @@ const gameSlice = createSlice({
 	name: "game",
 	initialState: gameInititalState,
 	reducers: {
-		change_game_status(state, action) {
-			state.game_status = action.payload.status;
+		changeGameStatus(state, action) {
+			state.gameStatus = action.payload.status;
 		},
-		game_loading(state, action) {
-			state.game_is_loading = action.payload.loading;
+		gameLoading(state, action) {
+			state.isLoading = action.payload.loading;
 			state.error = action.payload.error;
 			if (action.payload.loading) {
-				state.game_status = "inactive";
+				state.gameStatus = "inactive";
 			} else {
-				state.game_status = "active";
+				state.gameStatus = "active";
 			}
 		},
 
 		stopTimer(state) {
 			state.timed = false;
-			state.timer_ended = true;
 			state.finishTime = null;
-			if (state.game_status == "active") {
-				state.game_status = "lost";
+			if (state.gameStatus == "active") {
+				state.gameStatus = "lost";
 			}
 		},
 		startGame(state, action) {
@@ -51,12 +50,12 @@ const gameSlice = createSlice({
 				state.timed = true;
 				state.finishTime = Date.now() + INTERVAL * 1000;
 			}
-			state.game_status = "active";
+			state.gameStatus = "active";
 			state.level = action.payload.level;
 
 			state.places = action.payload.places;
 			state.choices = action.payload.choices;
-			state.max_attempts = action.payload.max_attempts;
+			state.maxAttempts = action.payload.maxAttempts;
 			state.answer = answer;
 			state.allGuesses = [];
 			state.attempts = 0;
@@ -65,23 +64,23 @@ const gameSlice = createSlice({
 			let guess = action.payload.guess.map((x) => parseInt(x));
 			let correctPlaces = 0;
 			let correctNumbers = 0;
-			let remain_ans = [];
-			let remain_guess = [];
-			if (state.game_status !== "active") {
+			let remainAns = [];
+			let remainGuess = [];
+			if (state.gameStatus !== "active") {
 				return;
 			}
 			for (let i = 0; i < state.places; i++) {
 				if (guess[i] === state.answer[i]) {
 					correctPlaces += 1;
 				} else {
-					remain_ans.push(state.answer[i]);
-					remain_guess.push(guess[i]);
+					remainAns.push(state.answer[i]);
+					remainGuess.push(guess[i]);
 				}
 			}
-			for (let i = 0; i < remain_guess.length; i++) {
-				const index = remain_ans.indexOf(remain_guess[i]);
+			for (let i = 0; i < remainGuess.length; i++) {
+				const index = remainAns.indexOf(remainGuess[i]);
 				if (index > -1) {
-					remain_ans.splice(index, 1);
+					remainAns.splice(index, 1);
 					correctNumbers += 1;
 				}
 			}
@@ -92,9 +91,9 @@ const gameSlice = createSlice({
 				{ guess: guess, corrPos: correctPlaces, corrNum: correctNumbers },
 			];
 			if (correctPlaces === state.places) {
-				state.game_status = "won";
-			} else if (state.attempts === state.max_attempts) {
-				state.game_status = "lost";
+				state.gameStatus = "won";
+			} else if (state.attempts === state.maxAttempts) {
+				state.gameStatus = "lost";
 			}
 		},
 	},
@@ -104,19 +103,19 @@ export const gameActions = gameSlice.actions;
 const fetchData = async (level) => {
 	let choices = 0;
 	let places = 0;
-	let max_attempts = 0;
+	let maxAttempts = 0;
 	if (level === "medium") {
 		places = 4;
 		choices = 8;
-		max_attempts = 10;
+		maxAttempts = 10;
 	} else if (level === "easy") {
 		places = 4;
 		choices = 4;
-		max_attempts = 8;
+		maxAttempts = 8;
 	} else {
 		places = 6;
 		choices = 6;
-		max_attempts = 12;
+		maxAttempts = 12;
 	}
 	const URL = `https://www.random.org/integers/?num=${encodeURIComponent(
 		places
@@ -139,11 +138,10 @@ const fetchData = async (level) => {
 		numbers: numbers,
 		choices: choices,
 		places: places,
-		max_attempts: max_attempts,
+		maxAttempts: maxAttempts,
 	};
 };
 export const acStartTimer = (level) => {
-	console.log("Timer", timer);
 	return (dispatch) => {
 		clearTimeout(timer);
 		if (level === "hard") {
@@ -155,11 +153,10 @@ export const acStartTimer = (level) => {
 };
 export const generateNewGame = (level) => {
 	return async (dispatch) => {
-		dispatch(gameActions.game_loading({ loading: true, error: false }));
+		dispatch(gameActions.gameLoading({ loading: true, error: false }));
 
 		try {
 			const data = await fetchData(level);
-			console.log("ANSWER", data.numbers);
 			dispatch(acStartTimer(level));
 
 			dispatch(
@@ -168,12 +165,12 @@ export const generateNewGame = (level) => {
 					choices: data.choices,
 					answer: data.numbers,
 					places: data.places,
-					max_attempts: data.max_attempts,
+					maxAttempts: data.maxAttempts,
 				})
 			);
-			dispatch(gameActions.game_loading({ error: false, loading: false }));
+			dispatch(gameActions.gameLoading({ error: false, loading: false }));
 		} catch (error) {
-			dispatch(gameActions.game_loading({ error: true, loading: false }));
+			dispatch(gameActions.gameLoading({ error: true, loading: false }));
 		}
 	};
 };

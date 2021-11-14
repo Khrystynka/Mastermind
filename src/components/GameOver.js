@@ -5,10 +5,10 @@ import { Typography } from "@mui/material";
 import { Stack } from "@mui/material";
 const gameOver = (props) => {
 	let message = "You Lost!";
-	let msg_color = "black";
+	let msgColor = "black";
 	if (props.status === "won") {
 		message = "You won!";
-		msg_color = "red";
+		msgColor = "red";
 	}
 	return (
 		<Box
@@ -20,7 +20,7 @@ const gameOver = (props) => {
 		>
 			<Typography
 				align="center"
-				color={msg_color}
+				color={msgColor}
 				variant="h6"
 				gutterBottom
 				component="div"

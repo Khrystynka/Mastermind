@@ -11,9 +11,9 @@ import { Stack } from "@mui/material";
 export default function ButtonAppBar() {
 	const navigate = useNavigate();
 	const level = useSelector((state) => state.game.level);
-	const game_status = useSelector((state) => state.game.game_status);
+	const gameStatus = useSelector((state) => state.game.gameStatus);
 	const score = useSelector((state) => state.score.score);
-	const total_games = useSelector((state) => state.score.total_games);
+	const totalGames = useSelector((state) => state.score.totalGames);
 	const newGameHandler = () => {
 		navigate("/level", { replace: true });
 	};
@@ -28,11 +28,11 @@ export default function ButtonAppBar() {
 						<Chip
 							color="secondary"
 							variant="filled"
-							label={`Score: ${score}/${total_games}`}
+							label={`Score: ${score}/${totalGames}`}
 						/>
-						{game_status === "inactive" ? null : (
+						{gameStatus === "inactive" ? null : (
 							<Chip
-								label={game_status === "stay" ? "New game" : `Level: ${level}`}
+								label={gameStatus === "stay" ? "New game" : `Level: ${level}`}
 								variant="filled"
 								color="secondary"
 								onClick={newGameHandler}
