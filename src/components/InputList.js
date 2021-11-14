@@ -21,15 +21,15 @@ const InputList = (props) => {
 		console.log("clicked", guess);
 		dispatch(gameActions.addGuess({ guess: guess }));
 	};
-	// let redClass = props.answer ? classes.red : null;
 	return (
 		<React.Fragment>
 			<Grid container spacing={1} p={1} className={classes.gridCenteredRow}>
 				<Grid item>
 					<Button
 						variant="contained"
-						className={classes.buttonRed}
+						className={classes.buttonInputM}
 						onClick={props.answer ? null : () => submitHandler(guessArr)}
+						color={props.answer ? "error" : null}
 					>
 						{props.answer ? "Answer:" : "Guess:"}
 					</Button>
@@ -39,8 +39,12 @@ const InputList = (props) => {
 						{props.answer
 							? props.answer.map((value, key) => {
 									return (
-										<Button key={key} className={classes.buttonRed}>
-											{value}
+										<Button
+											key={key}
+											className={classes.buttonInputSm}
+											color={props.level === "easy" ? `color${value}` : null}
+										>
+											{props.level === "easy" ? "o" : value}
 										</Button>
 									);
 							  })
@@ -48,11 +52,13 @@ const InputList = (props) => {
 									return (
 										<Button
 											key={key}
-											// className={`classes.button ${redClass}`}
-											className={classes.buttonRed}
+											className={classes.buttonInputSm}
 											onClick={() => changeHandler(id)}
+											color={
+												props.level === "easy" ? `color${guessArr[id]}` : null
+											}
 										>
-											{guessArr[id]}
+											{props.level === "easy" ? "o" : guessArr[id]}
 										</Button>
 									);
 							  })}

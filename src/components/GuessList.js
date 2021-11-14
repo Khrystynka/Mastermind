@@ -14,10 +14,21 @@ const GuessList = (props) => {
 	const gameStatus = useSelector((state) => state.game.gameStatus);
 	const maxAttempts = useSelector((state) => state.game.maxAttempts);
 	const answer = useSelector((state) => state.game.answer);
+	const level = useSelector((state) => state.game.level);
+
 	const classes = useStyles();
-	let controls = <InputList choices={choices} places={places} answer={null} />;
+	let controls = (
+		<InputList level={level} choices={choices} places={places} answer={null} />
+	);
 	if (gameStatus !== "active") {
-		controls = <InputList choices={choices} places={places} answer={answer} />;
+		controls = (
+			<InputList
+				level={level}
+				choices={choices}
+				places={places}
+				answer={answer}
+			/>
+		);
 	}
 	const emptyPlaces = maxAttempts - allGuesses.length;
 
@@ -33,6 +44,7 @@ const GuessList = (props) => {
 								corrPos={obj.corrPos}
 								corrNum={obj.corrNum}
 								inCorr={places - obj.corrNum - obj.corrPos}
+								level={level}
 							/>
 						);
 					})}
@@ -44,6 +56,7 @@ const GuessList = (props) => {
 								corrPos={0}
 								corrNum={0}
 								inCorr={places}
+								level={level}
 							/>
 						);
 					})}

@@ -56,10 +56,15 @@ const useStyles = makeStyles((theme) => ({
 		height: "2em",
 		width: "2em",
 	},
-	buttonMedium: {
+	buttonInputM: {
 		borderRadius: "10%",
-		height: "2em",
-		width: "4em",
+		height: "2.5em",
+		// width: "8em",
+	},
+	buttonInputSm: {
+		borderRadius: "10%",
+		height: "2.5em",
+		width: "2.5em",
 	},
 	marginL: {
 		marginLeft: "1rem",
@@ -69,18 +74,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	marginA: {
 		margin: "auto",
-	},
-	buttonRed: {
-		borderRadius: "10%",
-		height: "2em",
-		width: "2em",
-		backgroundColor: "red",
-	},
-	button0: {
-		borderRadius: "10%",
-		height: "2em",
-		width: "2em",
-		backgroundColor: "green",
 	},
 }));
 
