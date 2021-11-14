@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 let timer = null;
 const INTERVAL = 20;
+
 const gameInititalState = {
 	allGuesses: [],
 	max_attempts: 0,
@@ -88,7 +89,7 @@ const gameSlice = createSlice({
 
 			state.allGuesses = [
 				...state.allGuesses,
-				{ guess: guess, inPos: correctPlaces, corr: correctNumbers },
+				{ guess: guess, corrPos: correctPlaces, corrNum: correctNumbers },
 			];
 			if (correctPlaces === state.places) {
 				state.game_status = "won";

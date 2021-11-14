@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { gameActions } from "../store/game-slice";
-import useStyles from "./GuessItem.styles";
+import useStyles from "./Styles.styles";
 import { Grid } from "@mui/material";
-import { Box } from "@mui/system";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+
 const InputList = (props) => {
 	const classes = useStyles();
 
@@ -26,14 +26,7 @@ const InputList = (props) => {
 	let redClass = props.answer ? classes.red : null;
 	return (
 		<React.Fragment>
-			<Grid
-				container
-				spacing={1}
-				flexDirection="row"
-				justifyContent="center"
-				alignItems="center"
-				p={1}
-			>
+			<Grid container spacing={1} p={1} className={classes.gridCenteredRow}>
 				<Grid item>
 					<Button
 						variant="contained"

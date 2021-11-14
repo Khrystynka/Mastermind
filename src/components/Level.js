@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { generateNewGame } from "../store/game-slice";
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
-import useStyles from "./GuessItem.styles";
+import useStyles from "./Styles.styles";
+
 const Level = () => {
 	let classes = useStyles();
 	const navigate = useNavigate();
@@ -12,19 +13,18 @@ const Level = () => {
 
 	const startGameHandler = (level) => {
 		dispatch(generateNewGame(level));
-
-		navigate("/game");
+		navigate("/game", { replace: true });
 	};
+
 	return (
 		<Grid
 			container
 			spacing={2}
-			flexDirection="column"
-			justifyContent="center"
-			alignItems="center"
 			margin="auto"
+			flexDirection="column"
+			alignItems="center"
 		>
-			<Grid item flexGrow>
+			<Grid item>
 				<Button
 					size="large"
 					variant="contained"

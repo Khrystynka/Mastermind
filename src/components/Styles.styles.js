@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
 		border: "1px solid",
 		borderColor: "red",
 		borderRadius: "50%",
-		// borderStyle: "solid",
 		height: "1.1rem",
 		width: "1.1rem",
 	},
@@ -29,7 +28,29 @@ const useStyles = makeStyles((theme) => ({
 		height: "1.1rem",
 		width: "1.1rem",
 	},
-
+	ctlBox: {
+		marginBottom: "1rem",
+	},
+	guessesPaper: {
+		overflow: "auto",
+		marginBottom: "0.8rem",
+		marginTop: "0.8rem",
+	},
+	// gridFlexStart: {
+	// 	direction: "row",
+	// 	justifyContent: "flex-start",
+	// 	alignItems: "flex-start",
+	// },
+	gridCentered: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	gridCenteredRow: {
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	button: {
 		borderRadius: "10%",
 		height: "2em",
@@ -40,13 +61,13 @@ const useStyles = makeStyles((theme) => ({
 		height: "2em",
 		width: "4em",
 	},
-	buttonGroupML: {
+	marginL: {
 		marginLeft: "1rem",
 	},
-	buttonGroupMR: {
+	marginR: {
 		marginRight: "1rem",
 	},
-	buttonLarge: {
+	marginA: {
 		margin: "auto",
 	},
 	red: {

@@ -1,6 +1,4 @@
-// import logo from "./logo.svg";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import Welcome from "./components/Welcome";
 import Level from "./components/Level";
 import AppBar from "./components/AppBar";
@@ -13,14 +11,16 @@ import { scoreActions } from "./store/score-slice";
 import { useSelector } from "react-redux";
 import React, { useEffect, Suspense } from "react";
 import Spinner from "./components/UI/Spinner";
+import { Navigate } from "react-router-dom";
+import useStyles from "./App.styles";
 
 const Game = React.lazy(() => import("./components/Game"));
 let InitialLoad = true;
 function App() {
 	const dispatch = useDispatch();
-	const game_status = useSelector((state) => state.game.game_status);
-	const game_loading = useSelector((state) => state.game.game_is_loading);
-
+	const level = useSelector((state) => state.game.level);
+	const gameLoading = useSelector((state) => state.game.game_is_loading);
+	const classes = useStyles();
 	useEffect(() => {
 		if (InitialLoad) {
 			InitialLoad = false;
@@ -36,45 +36,31 @@ function App() {
 			}
 		}
 	}, [dispatch]);
-	let routes = (
-		<Routes>
-			<Route path="/" element={<Welcome />} />
-			<Route path="/level" element={<Level />} />
-			<Route path="/game" element={<Game />}></Route>
-		</Routes>
-	);
-	if (game_status === "inactive" && !game_loading) {
-		routes = (
-			<Routes>
-				<Route path="/" element={<Welcome />} />
-				<Route path="/level" element={<Level />} />
-			</Routes>
-		);
-	}
-
 	return (
 		<Fragment>
 			<CssBaseline />
 			<AppBar />
 			<Container maxWidth="sm">
-				<Box
-					sx={{
-						height: "86vh",
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-						bgcolor: "background.paper",
-						overflow: "hidden",
-						borderRadius: "1rem",
-						boxShadow: 2,
-						fontWeight: "bold",
-						padding: "0.8rem",
-						width: "100%",
-						backgroundColor: "secondary.dark",
-
-						margin: "auto",
-					}}
-				>
+				{/* <Box
+					// sx={{
+					// 	height: "86vh",
+					// 	display: "flex",
+					// 	flexDirection: "column",
+					// 	alignItems: "center",
+					// 	justifyContent: "center",
+					// 	bgcolor: "background.paper",
+					// 	overflow: "hidden",
+					// 	borderRadius: "1rem",
+					// 	boxShadow: 2,
+					// 	fontWeight: "bold",
+					// 	padding: "0.8rem",
+					// 	width: "100%",
+					// 	backgroundColor: "secondary.dark",
+					// 	margin: "auto",
+					// }}
+					className={classes.appContainer}
+				> */}
+				<Box className={classes.appContainer}>
 					<Suspense
 						fallback={
 							<div className="centered">
@@ -82,7 +68,14 @@ function App() {
 							</div>
 						}
 					>
-						{routes}
+						<Routes>
+							<Route path="/" element={<Welcome />} />
+							<Route path="/level" element={<Level />} />
+							<Route
+								path="/game"
+								element={level || gameLoading ? <Game /> : <Navigate to="/" />}
+							/>
+						</Routes>
 					</Suspense>
 				</Box>
 			</Container>

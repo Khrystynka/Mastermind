@@ -79,11 +79,11 @@ const Game = (props) => {
 	let game = (
 		<React.Fragment>
 			<Container>
-				<Button variant="body" display="block" gutterBottom>
+				<Button variant="body" display="block">
 					Attempts left: {max_attempts - attempts}
 				</Button>
 				{timed ? (
-					<Button variant="body" display="block" gutterBottom>
+					<Button variant="body" display="block">
 						Time left: {formatTime(timeLeft)}
 					</Button>
 				) : null}

@@ -11,9 +11,3 @@
 	box-sizing: border-box;
 	transition: all 0.3s ease-out;
 }
-.Modal .win {
-	border-color: red;
-}
-.Modal .lost {
-	border-color: black;
-}
