@@ -2,10 +2,10 @@ import React from "react";
 import { render as rtlRender } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import "./index.css";
+// import "./index.css";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./components/MUI/theme";
-import store from "./store/index";
+import theme from "../components/MUI/theme";
+import store from "../store/index";
 
 function render(ui, { preloadedState, st = store, ...renderOptions } = {}) {
 	function Wrapper({ children }) {

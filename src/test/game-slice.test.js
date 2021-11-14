@@ -1,16 +1,4 @@
-import reducer, { gameActions } from "./game-slice";
-// const gameInititalState = {
-// 	allGuesses: [],
-// 	max_attempts: 0,
-// 	attempts: 0,
-// 	level: 0,
-// 	places: 0,
-// 	choices: 0,
-// 	answer: [],
-// 	game_status: "inactive",
-// 	game_is_loading: false,
-// 	error: false,
-// };
+import reducer, { gameActions } from "../store/game-slice";
 
 test("should return the initial state", () => {
 	expect(reducer(undefined, {})).toEqual({
@@ -201,28 +189,6 @@ test("should detect the user lost", () => {
 		finishTime: null,
 	});
 });
-
-// test("should handle a todo being added to an existing list", () => {
-// 	const previousState = [
-// 		{
-// 			text: "Run the tests",
-// 			completed: true,
-// 			id: 0,
-// 		},
-// 	];
-// 	expect(reducer(previousState, todoAdded("Use Redux"))).toEqual([
-// 		{
-// 			text: "Run the tests",
-// 			completed: true,
-// 			id: 0,
-// 		},
-// 		{
-// 			text: "Use Redux",
-// 			completed: false,
-// 			id: 1,
-// 		},
-// 	]);
-// });
 
 test("should detect the invalid attemt to guess after the set amount of tries", () => {
 	const previousState = {

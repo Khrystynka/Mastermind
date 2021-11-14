@@ -70,8 +70,17 @@ const useStyles = makeStyles((theme) => ({
 	marginA: {
 		margin: "auto",
 	},
-	red: {
-		background: "red",
+	buttonRed: {
+		borderRadius: "10%",
+		height: "2em",
+		width: "2em",
+		backgroundColor: "red",
+	},
+	button0: {
+		borderRadius: "10%",
+		height: "2em",
+		width: "2em",
+		backgroundColor: "green",
 	},
 }));
 

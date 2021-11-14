@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, screen } from "./test-utils";
-import App from "./App";
+import App from "../App";
 
 test("checking the welcome window to contain New game button and game title", () => {
 	render(<App />);

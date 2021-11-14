@@ -21,14 +21,14 @@ const InputList = (props) => {
 		console.log("clicked", guess);
 		dispatch(gameActions.addGuess({ guess: guess }));
 	};
-	let redClass = props.answer ? classes.red : null;
+	// let redClass = props.answer ? classes.red : null;
 	return (
 		<React.Fragment>
 			<Grid container spacing={1} p={1} className={classes.gridCenteredRow}>
 				<Grid item>
 					<Button
 						variant="contained"
-						className={` ${redClass}`}
+						className={classes.buttonRed}
 						onClick={props.answer ? null : () => submitHandler(guessArr)}
 					>
 						{props.answer ? "Answer:" : "Guess:"}
@@ -39,7 +39,7 @@ const InputList = (props) => {
 						{props.answer
 							? props.answer.map((value, key) => {
 									return (
-										<Button key={key} className={`classes.button ${redClass}`}>
+										<Button key={key} className={classes.buttonRed}>
 											{value}
 										</Button>
 									);
@@ -48,7 +48,8 @@ const InputList = (props) => {
 									return (
 										<Button
 											key={key}
-											className={`classes.button ${redClass}`}
+											// className={`classes.button ${redClass}`}
+											className={classes.buttonRed}
 											onClick={() => changeHandler(id)}
 										>
 											{guessArr[id]}
