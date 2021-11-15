@@ -53,6 +53,10 @@ The application is for playing mastermind game. The main idea of the game is to 
 
 [Video demonstration](https://youtu.be/XdoRl926dcM)
 
+
+https://user-images.githubusercontent.com/17189541/141718485-522bf49c-e248-4515-a428-4c7ec54cf5fd.MOV
+
+
 # Project structure
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The application code consists of two main parts: UI and game logic.
