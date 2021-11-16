@@ -15,15 +15,12 @@ import { Navigate } from "react-router-dom";
 import useStyles from "./App.styles";
 
 const Game = React.lazy(() => import("./components/Game"));
-let InitialLoad = true;
 function App() {
 	const dispatch = useDispatch();
 	const level = useSelector((state) => state.game.level);
 	const gameLoading = useSelector((state) => state.game.isLoading);
 	const classes = useStyles();
 	useEffect(() => {
-		if (InitialLoad) {
-			InitialLoad = false;
 			const storageScore = localStorage.getItem("score");
 			const storageTotalGames = localStorage.getItem("total_games");
 			if (storageScore !== null && storageTotalGames !== null) {
@@ -34,7 +31,7 @@ function App() {
 					})
 				);
 			}
-		}
+		
 	}, [dispatch]);
 	return (
 		<Fragment>
