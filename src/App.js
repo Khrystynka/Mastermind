@@ -40,26 +40,7 @@ function App() {
 		<Fragment>
 			<CssBaseline />
 			<AppBar />
-			<Container maxWidth="sm">
-				{/* <Box
-					// sx={{
-					// 	height: "86vh",
-					// 	display: "flex",
-					// 	flexDirection: "column",
-					// 	alignItems: "center",
-					// 	justifyContent: "center",
-					// 	bgcolor: "background.paper",
-					// 	overflow: "hidden",
-					// 	borderRadius: "1rem",
-					// 	boxShadow: 2,
-					// 	fontWeight: "bold",
-					// 	padding: "0.8rem",
-					// 	width: "100%",
-					// 	backgroundColor: "secondary.dark",
-					// 	margin: "auto",
-					// }}
-					className={classes.appContainer}
-				> */}
+			<Container maxWidth="sm">	
 				<Box className={classes.appContainer}>
 					<Suspense
 						fallback={
